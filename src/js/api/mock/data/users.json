@@ -1,0 +1,13 @@
+[{
+    "uid": 1,
+    "login": "test1@test.com",
+    "password": "test1"
+}, {
+    "uid": 2,
+    "login": "test2@test.com",
+    "password": "test2"
+}, {
+    "uid": 3,
+    "login": "test3@test.com",
+    "password": "test3"
+}]

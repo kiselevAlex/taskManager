@@ -1,0 +1,44 @@
+body { 
+    margin: 0px;
+    > .el-container{
+        min-height: 100vh;
+    }
+}
+
+.el{
+    &-header{
+        height: 60px;
+        background-color: #409EFF;
+        z-index: 1;
+        position: relative;
+    }
+    
+    &-main{
+        background-color: #F2F6FC;
+        min-height: 100vh;
+        margin-top: -60px;
+        padding-top: 60px; 
+        box-sizing: border-box;   
+        position: relative;
+    }
+
+    &-form-login{
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        padding: 20px;
+        min-width: 260px;
+    }
+}
+
+.f {
+
+    &-right{
+        float: right;
+    }
+
+    &-left{
+        float: left;
+    }
+}
