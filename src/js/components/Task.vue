@@ -1,0 +1,107 @@
+<template>
+    <el-card class="task-panel" v-loading="preloader">
+        <div class="task-panel_title" slot="header">
+            <span>{{item.title}}</span>
+        </div>
+        <div class="task-body">
+            <div class="task-body__col">
+                <div class="task-body__el">
+                    <div class="task-body__el-title">Status:</div>
+                    <div v-if="!isEdit" class="task-body__el-value">{{item.status}}</div>
+                    <el-select v-else class="task-body__el-value task-body__el-select" v-model="d_item.status" placeholder="Select">
+                        <el-option
+                                v-for="opt in status"
+                                :key="opt.value"
+                                :label="opt.label"
+                                :value="opt.value">
+                        </el-option>
+                    </el-select>
+                </div>
+                <div class="task-body__el">
+                    <div class="task-body__el-title">Date:</div>
+                    <div class="task-body__el-value">{{item.date}}</div>
+                </div>
+            </div>
+            <div class="task-body__col">
+                <div class="task-body__el">
+                    <div class="task-body__el-title">Time plan:</div>
+                    <div v-if="!isEdit" class="task-body__el-value">{{item.time_plan}}</div>
+                    <el-input-number v-else class="task-body__el-value task-body__el-number"
+                                     v-model="d_item.time_plan" :min="0" :max="10000"></el-input-number>
+                </div>
+                <div class="task-body__el">
+                    <div class="task-body__el-title">Time real:</div>
+                    <div v-if="!isEdit" class="task-body__el-value">{{item.time_real}}</div>
+                    <el-input-number v-else  class="task-body__el-value task-body__el-number"
+                                     v-model="d_item.time_real" :min="0" :max="10000"></el-input-number>
+                </div>
+            </div>
+            <div class="task-body__about">
+                <div class="task-body__about-title">About:</div>
+                <div class="task-body__about-value">
+                    {{item.about}}
+                </div>
+            </div>
+            <el-button class="task-body__action" v-if="!isEdit" @click="edit" type="primary">Edit</el-button>
+            <template v-else>
+                <el-button class="task-body__action" @click="save" type="primary">Save</el-button>
+                <el-button class="task-body__action" plain @click="cancel" type="primary">Cancel</el-button>
+            </template>
+        </div>
+    </el-card>
+</template>
+
+<script>
+    export default {
+        name: "Task",
+        data() {
+            return {
+                status: [{
+                    value: 'complite',
+                    label: 'complite',
+                }, {
+                    value: 'in_progress',
+                    label: 'in_progress',
+                }],
+                d_item: {}
+            }
+        },
+        created(){
+            if (this.$store.getters['tasks'].length == 0)
+                this.$store.dispatch('updateTasks');
+        },
+        methods: {
+            edit(){
+                this.$router.push({name: 'TaskEdit', params: this.$router.params})
+            },
+            save(){
+                this.$store.dispatch('editTask', this.d_item);
+            },
+            cancel(){
+                this.$router.push({name: 'Task', params: this.$router.params})
+            }
+        },
+        computed: {
+            id() {
+                return this.$route.params.id;
+            },
+            item(){
+                let item = this.$store.getters['task'](this.id)
+                if (this.isEdit) {
+                    this.d_item = Object.assign({}, item)
+                }
+                return item
+            },
+            preloader(){
+                return this.$store.getters['preloaders']('tasks');
+            },
+            isEdit(){
+                return this.$route.meta.edit || false
+            }
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>

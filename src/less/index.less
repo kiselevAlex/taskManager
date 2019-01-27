@@ -1,7 +1,7 @@
 body { 
     margin: 0px;
     > .el-container{
-        min-height: 100vh;
+        min-height: 430px;
     }
 }
 
@@ -40,5 +40,117 @@ body {
 
     &-left{
         float: left;
+    }
+}
+
+.task{
+    &-list {
+        min-height: 60vh;
+    }
+}
+
+.page{
+    &-title {
+        color: #606266;
+        text-align: left;
+        padding-left: 10px;
+    }
+}
+
+.task{
+    &-panel{
+        margin: 20px auto;
+        max-width: 600px;
+
+        &_title{
+            text-align: center;
+        }
+    }
+
+    &-body{
+        &__col{
+            width: 49%;
+            display: inline-block;
+        }
+
+        @media(max-width: 765px){
+            &__col{
+                width: 100%;
+            }
+        }
+
+        &__action{
+            float: right;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            margin-left: 10px;
+        }
+
+        &__el{
+            display: flex;
+            padding: 10px;
+            justify-content: space-between;
+            height: 40px;
+            line-height: 40px;
+
+            &-title{
+                color: #606266;
+            }
+
+            &-select,
+            &-number{
+                width: 120px;
+            }
+        }
+
+        &__about{
+            padding: 10px;
+
+            &-title{
+                color: #606266;
+                margin-bottom: 10px;
+            }
+
+            &-value{
+                padding: 10px;
+                background-color: #F2F6FC;
+                border-radius: 5px;
+                border: 1px solid #EBEEF5;
+                margin: 0px -10px -10px -10px;
+            }
+        }
+    }
+}
+
+.breadcrumbs{
+    padding: 5px;
+
+    &-el{
+        list-style: none;
+        line-height: 20px;
+        font-size: 16px;
+        display: inline-block;
+        margin-left: 10px;
+
+        a {
+            text-decoration: none;
+            color: #606266;
+        }
+    }
+}
+
+.el-table__row{
+    cursor: pointer;
+}
+
+.logout {
+    float: right;
+    margin-top: 10px;
+}
+
+@media (max-width: 600px) {
+    .el-table__row > td:nth-child(n + 4),
+    .el-table__header tr th:nth-child(n + 4){
+        display: none;
     }
 }

@@ -38,7 +38,14 @@ const config = {
             test: /(\.css$|\.less$)/,
             use: ExtractTextPlugin.extract({
                 fallback: "style-loader",
-                use: ["css-loader", "less-loader"]
+                use: ["css-loader", {
+                    loader: 'postcss-loader',
+                    options: {
+                        config: {
+                            path: __dirname + '/postcss.config.js'
+                        }
+                    },
+                }, "less-loader"]
             })
         }, {
             test: /\.vue$/,
@@ -55,7 +62,7 @@ const config = {
                 loader: 'file-loader',
                 options: {
                     name: 'fonts/[name].[ext]',
-                    publicPath: distPath
+                    publicPath: './../'
                 }
             },
         }]
