@@ -2,9 +2,9 @@ import Vue from 'vue'
 import ElementUI from 'element-ui'
 import locale from 'element-ui/lib/locale/lang/ru-RU'
 import 'element-ui/lib/theme-chalk/index.css'
-import router from './router/index.js'
-import store from './store/index.js'
-import App from './App.vue'
+import router from './router/index'
+import store from './store/index'
+import App from './App'
 import './../less/index.less'
 
 Vue.use(ElementUI, { locale })

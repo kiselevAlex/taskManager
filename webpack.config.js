@@ -7,7 +7,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const isDevelopment = argv.mode === 'development';
 const distPath = path.resolve(__dirname, 'build');
-const mock = true;
+const mock = !!argv.mock;
 
 
 const config = {
@@ -28,7 +28,7 @@ const config = {
                 ? 'js/api/mock/index.js'
                 : 'js/api/server/index.js'
         },
-        extensions: ['*', '.js', '.vue', '.json']
+        extensions: ['.vue', '.js', '.ts', '.json']
     },
     module: {
         rules: [{
@@ -47,6 +47,9 @@ const config = {
                     },
                 }, "less-loader"]
             })
+        }, {
+            test: /\.tsx?$/, 
+            loader: "ts-loader"
         }, {
             test: /\.vue$/,
             use: 'vue-loader'
@@ -90,7 +93,7 @@ const config = {
     },
     devServer: {
         contentBase: distPath,
-        port: 9009,
+        port: 9090,
         compress: true,
         open: true
     }

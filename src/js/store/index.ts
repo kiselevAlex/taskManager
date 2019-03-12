@@ -1,12 +1,19 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import api from 'api-client'
-import Cookies from 'js-cookie'
+import * as Cookies from 'js-cookie'
+import Task from './../api/types/Task'
+import User from './../api/types/User'
 import router from './../router/index'
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+export interface AppState {
+    tasks: any;
+    preloaders: any;
+}
+
+export default new Vuex.Store<AppState>({
     state: {
         preloaders: [],
         tasks: []
@@ -25,22 +32,21 @@ export default new Vuex.Store({
         tasks(state, data){
             state.tasks = data
         },
-        updateTask(state, data){
-            state.tasks = state.tasks.reduce((res, el) => {
+        updateTask(state, data: Task){
+            state.tasks = state.tasks.reduce((res: Array<Task>, el: Task) => {
                 res.push(el.id == data.id ? data : el);
                 return res;
             }, [])
         }
     },
     actions: {
-        async login({commit, dispatch}, data){
+        async login({commit, dispatch}, data: User){
             commit("runPreloader", "login")
             try {
-                let res = await api.fetchToken(data)
-                Cookies.set('token', res.token, { expires: 1, path: '/' })
-                res.isAu = true;
-                dispatch('notifyByCode', res)
-                return res
+                const { token } = await api.fetchToken(data)
+                Cookies.set('token', token, { expires: 1, path: '/' })
+                dispatch('notifyByCode', { code: 200, isAu: true })
+                return token
             } catch(err) {
                 dispatch('notifyByCode', err)
                 return err;
@@ -48,11 +54,11 @@ export default new Vuex.Store({
                 commit("stopPreloader", "login")
             }
         },
-        async updateTasks({commit, dispatch}, data = {}){
+        async updateTasks({commit, dispatch}, data: User){
             commit("runPreloader", "tasks")
             try {
                 let res = await api.fetchTasks(data)
-                commit("tasks", res.data);
+                commit("tasks", res);
                 return res;
             } catch(err) {
                 dispatch('notifyByCode', err);
@@ -65,7 +71,7 @@ export default new Vuex.Store({
             commit("runPreloader", "tasks")
             try {
                 let res = await api.editTasks(data)
-                commit('updateTask', res.data);
+                commit('updateTask', res);
                 router.push({name: 'Task', params: {id: data.id}})
             } catch(err) {
                 dispatch('notifyByCode', err);
@@ -78,8 +84,7 @@ export default new Vuex.Store({
             Cookies.remove('token');
             router.push({name: 'Login'})
         },
-        notifyByCode({comit}, data = {}){
-            const {code, message, isAu} = data;
+        notifyByCode({}, {code, message, isAu}){
             switch(code){
                 case 200:
                     if (isAu) router.push({name: 'TaskList'})
@@ -106,14 +111,14 @@ export default new Vuex.Store({
         }
     },
     getters: {
-        preloaders: (state) => (name) => {
+        preloaders: (state) => (name: string): boolean => {
             return state.preloaders.includes(name);
         },
-        tasks: (state) => {
+        tasks: (state): Array<Task> => {
             return state.tasks || [];
         },
-        task: (state) => (id) => {
-            return state.tasks.reduce((res, el) =>{
+        task: (state) => (id: number): Task => {
+            return state.tasks.reduce((res: Task, el: Task) =>{
                 return el.id == id ? el : res
             },{});
         }

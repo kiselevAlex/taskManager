@@ -32,7 +32,6 @@ let router = new Router({
                 default: Task,
                 header: Logout
             },
-            props: true,
             meta: {
                 title: 'Task',
                 needAU: true,
@@ -50,7 +49,6 @@ let router = new Router({
                 default: Task,
                 header: Logout
             },
-            props: true,
             meta: {
                 edit: true,
                 title: 'Edit task',
