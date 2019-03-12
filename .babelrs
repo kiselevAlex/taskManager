@@ -11,8 +11,7 @@
     [
       "component",
       {
-        "libraryName": "element-ui",
-        "styleLibraryName": "theme-chalk"
+        "libraryName": "element-ui"
       }
     ],
     "transform-object-rest-spread"

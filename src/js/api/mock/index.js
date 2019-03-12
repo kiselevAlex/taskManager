@@ -1,6 +1,5 @@
 import users from './data/users.json'
 import tasks from './data/tasks.json'
-import Cookies from 'js-cookie'
 
 const fetch = (mockData, time = 0) => {
     return new Promise((resolve) => {
@@ -20,7 +19,6 @@ const login = (data, time = 0) => {
         setTimeout(() => {
             if (user)
                 resolve({
-                    code: 200,
                     token: user.uid + 'very_cool_token'
                 })
             else 
@@ -33,15 +31,12 @@ const login = (data, time = 0) => {
 
 
 export default {
-    fetchToken (data = {}) {
+    async fetchToken(data = {}) {
         return login(data, 1000)
     },
-    async fetchTasks (data = {}) {
+    async fetchTasks(data = {}) {
         try{
-            return {
-                code: 200,
-                data: await fetch(tasks, 3000)
-            }
+            return await fetch(tasks, 3000)
         } catch (err) {
             return {
                 code: 403,
@@ -50,10 +45,7 @@ export default {
     },
     async editTasks(data) {
         try{
-            return {
-                code: 200,
-                data: await fetch(data, 3000)
-            }
+            return await fetch(data, 3000)
         } catch (err) {
             return {
                 code: 403,
