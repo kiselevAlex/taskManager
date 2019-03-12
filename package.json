@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack --mode production --colors --progress",
-    "start": "webpack-dev-server --mode development --hot --colors --progress --mock",
+    "start": "webpack-dev-server --mode development --hot --colors --progress --mock"
   },
   "devDependencies": {
     "@types/js-cookie": "^2.2.1",
