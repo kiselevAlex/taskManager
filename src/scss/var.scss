@@ -1,0 +1,14 @@
+$--color-primary: #012B55 !default;
+$--color-primary--op: #012b552e !default;
+$--color-success: #428222 !default;
+$--color-warning: #ce8923 !default;
+$--color-danger: #bb1232 !default;
+$--color-info: #909399 !default;
+$--border-color-base: #012b5538 !default;
+
+// $--box-shadow-base: 0 2px 4px #012B5590, 0 0 6px rgba(0, 0, 0, .04) !default;
+// $--box-shadow-dark: 0 2px 4px #012B5590, 0 0 6px #012B5590 !default;
+$--box-shadow-light: 0 2px 12px 0 #012B5540 !default;
+
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+@import "~element-ui/packages/theme-chalk/src/index";

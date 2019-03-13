@@ -28,6 +28,7 @@
                 <template slot-scope="scope">
                     <el-button
                             size="mini"
+                            type="danger"
                             @click.stop="edit(scope.row.id)">Edit</el-button>
                 </template>
             </el-table-column>

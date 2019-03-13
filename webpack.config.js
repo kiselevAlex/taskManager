@@ -35,7 +35,7 @@ const config = {
             test: /\.html$/,
             use: 'html-loader'
         }, {
-            test: /(\.css$|\.less$)/,
+            test: /(\.css$|\.scss$)/,
             use: ExtractTextPlugin.extract({
                 fallback: "style-loader",
                 use: ["css-loader", {
@@ -45,7 +45,7 @@ const config = {
                             path: __dirname + '/postcss.config.js'
                         }
                     },
-                }, "less-loader"]
+                }, "sass-loader"]
             })
         }, {
             test: /\.tsx?$/, 

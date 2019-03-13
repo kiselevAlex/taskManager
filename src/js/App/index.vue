@@ -1,6 +1,7 @@
 <template>
     <el-container>
         <el-header>
+            <span class="header-brand">TaskTracker</span>
             <router-view name="header"></router-view>
         </el-header>
         <el-main>
