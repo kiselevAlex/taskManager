@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import api from 'api-client'
+import api from "api-client";
 import * as Cookies from 'js-cookie'
 import Task from './../api/types/Task'
-import User from './../api/types/User'
+import LoginData from './../api/types/LoginData'
 import router from './../router/index'
 
 Vue.use(Vuex);
@@ -40,12 +40,13 @@ export default new Vuex.Store<AppState>({
         }
     },
     actions: {
-        async login({commit, dispatch}, data: User){
+        async login({commit, dispatch}, data: LoginData){
             commit("runPreloader", "login")
             try {
-                const { token } = await api.fetchToken(data)
+                const { code, token, user } = await api.fetchToken(data)
+                if (!token) throw { code }
                 Cookies.set('token', token, { expires: 1, path: '/' })
-                dispatch('notifyByCode', { code: 200, isAu: true })
+                dispatch('notifyByCode', { code, isAu: true })
                 return token
             } catch(err) {
                 dispatch('notifyByCode', err)
@@ -54,12 +55,12 @@ export default new Vuex.Store<AppState>({
                 commit("stopPreloader", "login")
             }
         },
-        async updateTasks({commit, dispatch}, data: User){
+        async updateTasks({commit, dispatch}){
             commit("runPreloader", "tasks")
             try {
-                let res = await api.fetchTasks(data)
-                commit("tasks", res);
-                return res;
+                let { tasks } = await api.fetchTasks(Cookies.get('token'))
+                commit("tasks", tasks);
+                return tasks;
             } catch(err) {
                 dispatch('notifyByCode', err);
                 return err;
@@ -67,12 +68,12 @@ export default new Vuex.Store<AppState>({
                 commit("stopPreloader", "tasks")
             }
         },
-        async editTask({commit, dispatch}, data = {}){
+        async editTask({commit, dispatch}, data: Task){
             commit("runPreloader", "tasks")
             try {
-                let res = await api.editTasks(data)
-                commit('updateTask', res);
-                router.push({name: 'Task', params: {id: data.id}})
+                let { task } = await api.editTasks(data, Cookies.get('token'))
+                commit('updateTask', task);
+                router.push({ name: 'Task', params: { id: data.id.toString() } })
             } catch(err) {
                 dispatch('notifyByCode', err);
                 return err;
@@ -98,7 +99,21 @@ export default new Vuex.Store<AppState>({
                     })
                     break;
                 case 403:
-                    router.push({name: 'Login'})
+                    Vue.prototype.$notify({
+                        title: 'Error',
+                        message: message || 'Permission denied',
+                        showClose: false,
+                        type: 'error'
+                    })
+                    break;
+                case 401:
+                    Vue.prototype.$notify({
+                        title: 'Error',
+                        message: message || 'Access denied',
+                        showClose: false,
+                        type: 'error'
+                    })
+                    router.push({ name: 'Login' })
                     break;
                 default:
                     Vue.prototype.$notify({
