@@ -19,7 +19,9 @@ const login = (data, time = 0) => {
         setTimeout(() => {
             if (user)
                 resolve({
-                    token: user.uid + 'very_cool_token'
+                    token: user.uid + 'very_cool_token',
+                    user: user,
+                    code: 200
                 })
             else 
                 reject({
@@ -34,21 +36,22 @@ export default {
     async fetchToken(data = {}) {
         return login(data, 1000)
     },
-    async fetchTasks(data = {}) {
+
+    async fetchTasks() {
         try{
-            return await fetch(tasks, 3000)
+            return await fetch({ code: 200, tasks }, 3000)
         } catch (err) {
             return {
-                code: 403,
+                code: 401,
             }
         }
     },
     async editTasks(data) {
         try{
-            return await fetch(data, 3000)
+            return await fetch({ code: 200, task: data }, 3000)
         } catch (err) {
             return {
-                code: 403,
+                code: 401,
             }
         }
     }

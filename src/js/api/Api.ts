@@ -1,9 +1,8 @@
-import User from './types/User';
 import Task from './types/Task';
-import Token from './types/Token';
+import LoginData from './types/LoginData';
 
 export default interface Api {
-    fetchToken: (data: User) => Token;
-    fetchTasks: (data: object) => Array<Task>;
+    fetchToken: (data: LoginData) => Promise<{ user?: firebase.User; token?: string; code: number }>;
+    fetchTasks: (uid?: string) => Array<Task>;
     editTasks: (data: Task) => Task;
 }

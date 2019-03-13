@@ -1,5 +1,4 @@
-export default interface User {
-    readonly uid?: number,
+export default interface LoginData extends Object {
     readonly login: string,
     readonly password: string
 }

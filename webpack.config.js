@@ -26,7 +26,7 @@ const config = {
             vue: 'vue/dist/vue.js',
             'api-client': mock
                 ? 'js/api/mock/index.js'
-                : 'js/api/server/index.js'
+                : 'js/api/server/index.ts'
         },
         extensions: ['.vue', '.js', '.ts', '.json']
     },
